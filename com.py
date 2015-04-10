@@ -1,4 +1,6 @@
 from random import randint
+import numpy
+import heapq
 
 class Computer(object):
 
@@ -13,7 +15,7 @@ class Computer(object):
         i = 1
         perf = 0
         bon = 0
-        firstguess = [0,0,1,1,2]
+        firstguess = [0,0,1,2,3]
         guess = None
 
         #Play first guess
@@ -24,10 +26,19 @@ class Computer(object):
         	i += 1
         	h = 0
         	CodeElligible = []
+        	#Create the first population
         	pop = self.initPopulation()
-
+        	#Calculate the fitness of all the code in the generation
+        	fitpop = self.fitness(firtguess, *pop) 
+        	#loop for a maximaum au maxgen = 100 or with a maxsize of code chose of 60
         	while( h <= maxgen and len(CodeElligible) <= maxsize):
+        		#Initialise a new generation of the populations
         		pop = self.newPopulation(pop)
+        		fitpop = self.fitness(firstguess, *pop)
+
+        		indiceTopPop = self.elitegeneration(fitpop)
+
+        		
 
         		if self.fitness():
         			CodeElligible.append(guess)
@@ -52,6 +63,9 @@ class Computer(object):
     			pop.append(b)		
     	return pop
 
+    def elitegeneration(self, a):
+    	#Return a list of indice of the 10 best results of the fitness value
+    	return heapq.nlargest(10, range(len(a)), a.__getitem__)
 
     def answer(self):
     	return [randint(0,7) for x in range(5)]
@@ -63,11 +77,13 @@ class Computer(object):
     	pass
 
 
-    def fitness(self, a, f):
-    	b, w = verif(a, f)
-
-    	fitness = 2(b + w) + sum(range(1, b+w))
-    	return fitness
+    def fitness(self,f, *a):
+    	lis = []
+    	for i in a:
+    		b, w = verif(i, f)
+    		fit = 2(b + w) + sum(range(1, (b+w - 1)))
+    		lis.append(fit)
+    	return lis
 
     def mutation(self, a):
     	#Recoit un code une mets une couleur aleatoire a une couleur aleatoire
