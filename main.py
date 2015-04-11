@@ -8,7 +8,7 @@ class MasterMind(object):
     def __init__(self):
         self.couleur = ['rouge','bleu','vert','jaune','noire','kaki','aqua','orange']
         self.c = [i[0] for i in self.couleur]
-        if sys.argv[1] in ('1','2') :
+        if sys.argv[1] in ('1','2'):
             if self.start_player():
                 os.system('clear')
                 self.menu()
@@ -49,7 +49,7 @@ class MasterMind(object):
                         tAnswer[i] = "!"
                         essai[i] = "?"
                 for a in essai:
-                    for i,b in enumerate(tAnswer[:]):
+                    for i, b in enumerate(tAnswer[:]):
                         if a == b[0]:
                             nbrCorrecte += 1
                             tAnswer[i] = "!"
