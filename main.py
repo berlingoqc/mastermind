@@ -8,16 +8,19 @@ class MasterMind(object):
     def __init__(self):
         self.couleur = ['rouge','bleu','vert','jaune','noire','kaki','aqua','orange']
         self.c = [i[0] for i in self.couleur]
-        if sys.argv[1] in ('1','2'):
-            if self.start_player():
-                os.system('clear')
-                self.menu()
+        if len(sys.argv) > 1:
+            if sys.argv[1] in ('1','2'):
+                if self.start_player():
+                    os.system('clear')
+                    self.menu()
         else:
             print(self.menu())
 
     def menu(self):
         print("Bienvenue dans mon jeu de MasterMind\n\n1- Game ordinateur\n2- Game joueur\n3- Out of here")
-        return int(input("Ton choix :"))
+        a = int(input("Ton choix :"))
+        if a == 2:
+            self.start_player()
     def create_awnser(self):
         return [self.couleur[randint(0,7)] for x in range(5)]
     def start_player(self):
